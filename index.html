@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Երևանյան Մուլտ | 3D Անիմացիոն Ստուդիա և AI Լուծումներ</title>
+  <meta name="description" content="Վերածեք ձեր լուսանկարն ու պատմությունը Pixar-ոճի 3D մուլտֆիլմի, 3D վիդեո-հրավիրատոմսի կամ վիրուսային գովազդի։" />
+  <style>
+    :root {
+      --bg: #0b0b12;
+      --card: #151522;
+      --card-border: rgba(255, 214, 0, 0.18);
+      --gold: #ffd600;
+      --red: #e5243b;
+      --text: #f8f9fa;
+      --muted: #a6a9b8;
+      --green: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Armenian", sans-serif; }
+    body { background: radial-gradient(circle at top, #1b1630 0%, var(--bg) 65%); color: var(--text); min-height: 100vh; padding-bottom: 90px; overflow-x: hidden; }
+    .container { max-width: 480px; margin: 0 auto; padding: 18px 16px; }
+    .badge-top { display: inline-flex; align-items: center; gap: 6px; background: rgba(229, 36, 59, 0.18); border: 1px solid rgba(229, 36, 59, 0.5); color: #ff8594; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 999px; margin-bottom: 10px; }
+    h1 { font-size: 26px; line-height: 1.2; font-weight: 900; margin-bottom: 8px; }
+    h1 span { color: var(--gold); }
+    .sub { color: var(--muted); font-size: 14px; line-height: 1.45; margin-bottom: 18px; }
+    .section-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 20px; padding: 16px; margin-bottom: 18px; box-shadow: 0 12px 32px rgba(0,0,0,0.45); }
+    .section-title { font-size: 17px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .section-desc { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.4; }
+
+    /* Before / After Interactive Slider */
+    .ba-wrap { position: relative; width: 100%; height: 340px; border-radius: 16px; overflow: hidden; user-select: none; touch-action: pan-y; border: 1px solid rgba(255,255,255,0.12); background: #111; }
+    .ba-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+    .ba-before-clip { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 3px solid var(--gold); }
+    .ba-before-clip img { width: 448px; max-width: none; height: 100%; object-fit: cover; }
+    .ba-handle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 42px; height: 42px; border-radius: 50%; background: var(--gold); color: #000; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.6); font-size: 16px; pointer-events: none; }
+    .ba-label { position: absolute; bottom: 12px; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 800; background: rgba(0,0,0,0.72); backdrop-filter: blur(4px); }
+    .ba-label.left { left: 10px; color: #fff; }
+    .ba-label.right { right: 10px; color: var(--gold); }
+    .demo-tag { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.68); color: #ddd; font-size: 10px; padding: 3px 8px; border-radius: 6px; }
+
+    /* Interactive Storyboard Builder */
+    .label { font-size: 12px; font-weight: 700; color: var(--gold); margin: 12px 0 6px; display: block; text-transform: uppercase; letter-spacing: 0.4px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--text); padding: 8px 12px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.15s; }
+    .chip.active { background: rgba(255, 214, 0, 0.18); border-color: var(--gold); color: var(--gold); }
+    .input-box { width: 100%; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.16); color: #fff; border-radius: 12px; padding: 11px 12px; font-size: 14px; margin-top: 6px; outline: none; }
+    .input-box:focus { border-color: var(--gold); }
+    .btn-main { width: 100%; background: linear-gradient(135deg, #ffd600 0%, #ff9900 100%); color: #000; font-weight: 900; font-size: 15px; border: none; border-radius: 14px; padding: 14px; margin-top: 14px; cursor: pointer; box-shadow: 0 6px 20px rgba(255, 214, 0, 0.28); transition: transform 0.12s; }
+    .btn-main:active { transform: scale(0.98); }
+    .btn-dm { width: 100%; background: linear-gradient(135deg, #e5243b 0%, #b81428 100%); color: #fff; font-weight: 800; font-size: 15px; border: none; border-radius: 14px; padding: 14px; margin-top: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+
+    .result-box { display: none; margin-top: 14px; background: rgba(255, 214, 0, 0.07); border: 1px dashed var(--gold); border-radius: 14px; padding: 14px; }
+    .shot-item { font-size: 13px; line-height: 1.45; margin-bottom: 8px; padding-left: 10px; border-left: 2px solid var(--gold); }
+    .shot-item strong { color: var(--gold); }
+
+    /* Product Grid */
+    .prod-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .prod-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .prod-head { display: flex; justify-content: space-between; align-items: center; }
+    .prod-title { font-size: 15px; font-weight: 800; color: #fff; }
+    .prod-tag { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 99px; background: rgba(16, 185, 129, 0.18); color: #34d399; }
+    .prod-text { font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .prod-action { margin-top: 6px; font-size: 13px; font-weight: 800; color: var(--gold); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+
+    /* AI Chatbot Demo */
+    .chat-window { background: #0d0d16; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 12px; max-height: 230px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .msg { max-width: 85%; padding: 9px 12px; border-radius: 14px; font-size: 13px; line-height: 1.4; }
+    .msg.bot { background: #1f2033; color: #fff; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .msg.user { background: var(--red); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+    /* Sticky Bottom CTA */
+    .sticky-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 11, 18, 0.92); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,0.12); padding: 10px 16px; z-index: 50; }
+    .sticky-inner { max-width: 480px; margin: 0 auto; display: flex; gap: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="text-align:center;">
+      <div class="badge-top">🎬 @yerevanyan.mult · 3D Animation & AI Studio</div>
+      <h1>Քո Լուսանկարն ու Պատմությունը՝ <span>3D Մուլտֆիլմով</span></h1>
+      <p class="sub">Ստեղծում ենք անհատական 3D մուլտ-նվերներ, անիմացիոն վիդեո-հրավիրատոմսեր, վիրուսային գովազդներ և հայերեն AI օգնականներ։</p>
+    </div>
+
+    <!-- 1. Interactive Before / After Slider -->
+    <div class="section-card">
+      <div class="section-title">🪄 Շարժի՛ր սլայդերը․ Լուսանկար ➔ 3D Մուլտ</div>
+      <div class="section-desc">Տեսեք, թե ինչպես է մեկ սովորական ընտանեկան լուսանկարը վերածվում 3D կինոյի հերոսների։</div>
+      <div class="ba-wrap" id="baSlider">
+        <img class="ba-img" src="assets/after_cartoon.jpg" alt="3D Cartoon" />
+        <div class="ba-before-clip" id="baBefore">
+          <img id="baBeforeImg" src="assets/before_photo.jpg" alt="Original Photo" />
+        </div>
+        <div class="ba-handle" id="baHandle">↔</div>
+        <div class="ba-label left">📸 Լուսանկար</div>
+        <div class="ba-label right">🎬 3D Մուլտ</div>
+        <div class="demo-tag">Ցուցադրական օրինակ</div>
+      </div>
+    </div>
+
+    <!-- 2. Interactive 10-Second Custom Cartoon Storyboard Builder -->
+    <div class="section-card" id="builder">
+      <div class="section-title">✨ Հավաքի՛ր Քո Մուլտի Սցենարը 10 Վայրկյանում</div>
+      <div class="section-desc">Ընտրեք առիթն ու բնավորության գծերը՝ համակարգը վայրկյանական կգեներացնի ձեր ապագա 3D մուլտի սցենարի նմուշը։</div>
+
+      <span class="label">1. Ո՞ւմ կամ ինչի՞ համար է մուլտը</span>
+      <div class="chips" id="occChips">
+        <div class="chip active" data-val="Ծննդյան կամ Հոբելյանական 3D Մուլտ-Նվեր">🎂 Ծնունդ / Հոբելյան</div>
+        <div class="chip" data-val="Հարսանեկան Love Story / 3D Վիդեո-Հրավիրատոմս">💍 Հարսանիք / Love Story</div>
+        <div class="chip" data-val="Մանկական 3D Հեքիաթ / Ատամհատիկ">👶 Բալիկի Հեքիաթ</div>
+        <div class="chip" data-val="Խոսող 3D Դիմանկար (QR կոդով շրջանակ)">🖼️ Խոսող 3D Նկար (QR)</div>
+        <div class="chip" data-val="Բիզնեսի Վիրուսային 3D Գովազդային Հոլովակ">📢 Բիզնեսի 3D Գովազդ</div>
+      </div>
+
+      <span class="label">2. Ընտրեք տրամադրությունը</span>
+      <div class="chips" id="moodChips">
+        <div class="chip active" data-val="Հումորային (Երևանյան կոլորիտով)">😂 Հումորային</div>
+        <div class="chip" data-val="Հուզիչ (Ջերմ ընտանեկան հիշողություն)">🥹 Հուզիչ</div>
+        <div class="chip" data-val="Հոլիվուդյան ֆիլմի թրեյլեր">🔥 Էպիկական / Կինո</div>
+      </div>
+
+      <span class="label">3. Հերոսի անունը կամ սիրելի սովորությունը</span>
+      <div class="chips" style="margin-bottom:6px;" id="traitChips">
+        <div class="chip" onclick="addTrait('սուրճի մեծ սիրահար է')">☕ Սուրճի սիրահար</div>
+        <div class="chip" onclick="addTrait('խորովածի պրոֆեսոր է')">🔥 Խորովածի վարպետ</div>
+        <div class="chip" onclick="addTrait('մեքենայի գիժ է')">🚗 Մեքենայի սիրահար</div>
+        <div class="chip" onclick="addTrait('միշտ ուշանում է')">⏰ Միշտ ուշացող</div>
+      </div>
+      <input type="text" id="heroInput" class="input-box" placeholder="Օրինակ՝ Արման, սիրում է խորոված և նարդի..." />
+
+      <button class="btn-main" onclick="generateStoryboard()">🎬 Ստեղծել Իմ Մուլտի Սցենարը</button>
+
+      <div class="result-box" id="storyResult">
+        <div style="font-size:14px; font-weight:800; color:var(--gold); margin-bottom:8px;">🎉 Ձեր 3D Մուլտի Նախնական Սցենարը Պատրաստ է․</div>
+        <div id="storyShots"></div>
+        <button class="btn-dm" onclick="sendStoryToDM()">📩 Ուղարկել Այս Սցենարը DM և Պատվիրել</button>
+        <div id="copyNotice" style="font-size:12px; color:#34d399; text-align:center; margin-top:6px; display:none;">✅ Տեքստը պատճենվեց․ բացվում է Instagram DM-ը՝ պարզապես Paste արեք։</div>
+      </div>
+    </div>
+
+    <!-- 3. 4 High-Impact Services We Sell -->
+    <div class="section-card">
+      <div class="section-title">🎁 Մեր 4 Ամենապահանջված Պրոդուկտները</div>
+      <div class="section-desc">Յուրաքանչյուր աշխատանք ստեղծվում է անհատական սցենարով, ձեր լուսանկարների նմանությամբ և բնական հայերեն հնչյունավորմամբ։</div>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-head">
+            <span class="prod-title">1. Անհատական 3D Մուլտֆիլմ Լուսանկարից</span>
+            <span class="prod-tag">ՀԻԹ ՆՎԵՐ</span>
+          </div>
+          <p class="prod-text">Ձեր ծնողների, սիրելիի կամ ընկերոջ լուսանկարները վերածվում են 15–60 վրկ հումորային կամ հուզիչ 3D մուլտֆիլմի՝ իրենց բնորոշ խոսքերով։</p>
+          <span class="prod-action" onclick="quickOrder('Անհատական 3D Մուլտֆիլմ (ՄՈՒԼՏ)')">👉 Պատվիրել DM-ով («ՄՈՒԼՏ») ➔</span>
+        </div>
+
+        <div class="prod-card">
+          <div class="prod-head">
+            <span class="prod-title">2. 3D Վիդեո-Հրավիրատոմս և Love Story</span>
+            <span class="prod-tag">ՀԱՐՍԱՆԻՔ / ՄԿՐՏՈՒԹՅՈՒՆ</span>
+          </div>
+          <p class="prod-text">Մոռացեք ձանձրալի ստատիկ հրավիրատոմսերը․ հարսն ու փեսան (կամ բալիկը) 3D մուլտի մեջ անձամբ հրավիրում են հյուրերին WhatsApp/Telegram-ով + մեծ էկրանի Love Story։</p>
+          <span class="prod-action" onclick="quickOrder('3D Վիդեո-Հրավիրատոմս / Love Story')">👉 Պատվիրել DM-ով («ՀՐԱՎԻՐԱՏՈՄՍ») ➔</span>
+        </div>
+
+        <div class="prod-card">
+          <div class="prod-head">
+            <span class="prod-title">3. «Խոսող» 3D Դիմանկար (QR Կոդով) + Հեքիաթ</span>
+            <span class="prod-tag">ՆՈՐՈՒՅԹ</span>
+          </div>
+          <p class="prod-text">Տպագիր կամ թվային 3D ընտանեկան դիմանկար և մանկական գիրք․ հեռախոսի տեսախցիկը պահում եք անկյունի QR կոդի վրա, և նկարը կենդանանում է որպես 3D մուլտֆիլմ։</p>
+          <span class="prod-action" onclick="quickOrder('Խոսող 3D Դիմանկար / Մանկական Հեքիաթ')">👉 Պատվիրել DM-ով («ՀԵՔԻԱԹ») ➔</span>
+        </div>
+
+        <div class="prod-card">
+          <div class="prod-head">
+            <span class="prod-title">4. Վիրուսային 3D Գովազդ Բիզնեսի Համար</span>
+            <span class="prod-tag">B2B ԲԻԶՆԵՍ</span>
+          </div>
+          <p class="prod-text">Ուզո՞ւմ եք, որ ձեր սրճարանի, խանութի կամ ծառայության հոլովակը հավաքի տասնյակ հազարավոր դիտումներ։ Ստեղծում ենք 3D գովազդային ռիլեր ձեր բրենդի համար։</p>
+          <span class="prod-action" onclick="quickOrder('Բիզնեսի 3D Գովազդային Հոլովակ')">👉 Պատվիրել DM-ով («ԳՈՎԱԶԴ») ➔</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Live Interactive Armenian AI Business Chatbot Demo -->
+    <div class="section-card">
+      <div class="section-title">🤖 Փորձի՛ր Հայերեն AI Բիզնես-Օգնականին</div>
+      <div class="section-desc">Ունե՞ք բիզնես էջ։ Սեղմեք հարցերից մեկին և տեսեք, թե ինչպես է մեր 24/7 հայերեն AI օգնականը վայրկյանական պատասխանում հաճախորդներին Instagram-ում և Telegram-ում․</div>
+      <div class="chat-window" id="chatWindow">
+        <div class="msg bot">Ողջո՜ւյն 👋 Ես բիզնես էջի 24/7 հայերեն AI օգնականն եմ (Ցուցադրական օրինակ)։ Հարցրեք գնի, առաքման կամ պատվերի մասին 👇</div>
+      </div>
+      <div class="chips">
+        <div class="chip" onclick="askBot('Գինը որքա՞ն է և ինչպե՞ս պատվիրեմ։')">💬 Գինը որքա՞ն է</div>
+        <div class="chip" onclick="askBot('Առաքում ունե՞ք Երևանում այսօր։')">🚚 Առաքում ունե՞ք</div>
+        <div class="chip" onclick="askBot('Ուզում եմ նույնպիսի AI բոտ իմ էջի համար։')">🤖 Ուզում եմ AI բոտ իմ էջին</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Bottom Bar -->
+  <div class="sticky-bar">
+    <div class="sticky-inner">
+      <a class="btn-dm" style="margin-top:0;" href="https://ig.me/m/yerevanyan.mult" target="_blank">
+        📩 Գրել Instagram DM (@yerevanyan.mult)
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // 1. Before / After Slider Logic
+    const slider = document.getElementById('baSlider');
+    const beforeClip = document.getElementById('baBefore');
+    const beforeImg = document.getElementById('baBeforeImg');
+    const handle = document.getElementById('baHandle');
+
+    function syncWidth() {
+      beforeImg.style.width = slider.offsetWidth + 'px';
+    }
+    window.addEventListener('resize', syncWidth);
+    syncWidth();
+
+    function moveSlider(clientX) {
+      const rect = slider.getBoundingClientRect();
+      let pos = ((clientX - rect.left) / rect.width) * 100;
+      pos = Math.max(5, Math.min(95, pos));
+      beforeClip.style.width = pos + '%';
+      handle.style.left = pos + '%';
+    }
+    slider.addEventListener('mousemove', (e) => { if (e.buttons === 1) moveSlider(e.clientX); });
+    slider.addEventListener('click', (e) => moveSlider(e.clientX));
+    slider.addEventListener('touchmove', (e) => moveSlider(e.touches[0].clientX), { passive: true });
+
+    // 2. Chips Selection
+    function setupChips(containerId) {
+      const box = document.getElementById(containerId);
+      box.querySelectorAll('.chip').forEach(ch => {
+        ch.addEventListener('click', () => {
+          box.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+          ch.classList.add('active');
+        });
+      });
+    }
+    setupChips('occChips');
+    setupChips('moodChips');
+
+    function addTrait(t) {
+      const inp = document.getElementById('heroInput');
+      inp.value = inp.value ? inp.value + ', ' + t : t;
+    }
+
+    let lastGeneratedOrder = '';
+
+    function generateStoryboard() {
+      const occ = document.querySelector('#occChips .chip.active').dataset.val;
+      const mood = document.querySelector('#moodChips .chip.active').dataset.val;
+      const hero = document.getElementById('heroInput').value.trim() || 'Գլխավոր հերոս (ձեր լուսանկարով)';
+
+      const shotsHtml = `
+        <div class="shot-item"><strong>Կադր 1 (0–4 վրկ)․</strong> 3D Pixar-ոճի տեսարան․ հերոսը (${hero}) հայտնվում է իրեն ամենաբնորոշ միջավայրում՝ 100% ճանաչելի միմիկայով։</div>
+        <div class="shot-item"><strong>Կադր 2 (4–12 վրկ)․</strong> Զարգանում է «${mood}» սյուժեն՝ ընտանիքի անդամների կամ ընկերների մասնակցությամբ և բնական հայերեն երկխոսությամբ։</div>
+        <div class="shot-item"><strong>Կադր 3 (12–25 վրկ)․</strong> Անսպասելի կուլմինացիա և անհատական շնորհավորանք/ուղերձ՝ նվիրված «${occ}» առիթին։</div>
+      `;
+      document.getElementById('storyShots').innerHTML = shotsHtml;
+      document.getElementById('storyResult').style.display = 'block';
+      lastGeneratedOrder = `Ողջույն @yerevanyan.mult 🎬 Ուզում եմ պատվիրել․\n• Ֆորմատ՝ ${occ}\n• Ոճ՝ ${mood}\n• Հերոսի դետալներ՝ ${hero}\nԽնդրում եմ ուղարկել պայմաններն ու ազատ օրերը։`;
+    }
+
+    function sendStoryToDM() {
+      if (navigator.clipboard && lastGeneratedOrder) {
+        navigator.clipboard.writeText(lastGeneratedOrder);
+      }
+      document.getElementById('copyNotice').style.display = 'block';
+      setTimeout(() => {
+        window.open('https://ig.me/m/yerevanyan.mult', '_blank');
+      }, 450);
+    }
+
+    function quickOrder(serviceName) {
+      const msg = `Ողջույն @yerevanyan.mult 🎬 Հետաքրքրում է «${serviceName}» ծառայությունը։ Խնդրում եմ ուղարկել մանրամասները։`;
+      if (navigator.clipboard) navigator.clipboard.writeText(msg);
+      window.open('https://ig.me/m/yerevanyan.mult', '_blank');
+    }
+
+    // 4. AI Business Bot Simulator
+    function askBot(q) {
+      const w = document.getElementById('chatWindow');
+      const u = document.createElement('div');
+      u.className = 'msg user';
+      u.textContent = q;
+      w.appendChild(u);
+
+      const b = document.createElement('div');
+      b.className = 'msg bot';
+      if (q.includes('Գինը')) {
+        b.textContent = '🤖 Ողջույն ջան ✨ Ավտոմատ պատասխանն ընտրվում է ձեր հաստատած գնացուցակից 0.5 վայրկյանում, իսկ անհատական զեղչի կամ պատվերի դեպքում օգնականը անմիջապես փոխանցում է տվյալները ձեզ։';
+      } else if (q.includes('Առաքում')) {
+        b.textContent = '🤖 Այո՛, Երևանի տարածքում առաքումը գործում է ամեն օր։ Գրեք ձեր հասցեն և հեռախոսահամարը, որպեսզի գրանցեմ պատվերը 📦';
+      } else {
+        b.textContent = '🤖 Հրաշալի է։ Գրեք մեզ Instagram DM-ում «ԲՈՏ» բառը, և մենք անվճար կպատրաստենք ցուցադրական օգնական հենց ձեր բիզնես էջի օրինակով 👇';
+      }
+      setTimeout(() => {
+        w.appendChild(b);
+        w.scrollTop = w.scrollHeight;
+      }, 300);
+      w.scrollTop = w.scrollHeight;
+    }
+  </script>
+</body>
+</html>
